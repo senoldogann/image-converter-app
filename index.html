@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="imageConverterApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body ng-controller="ImageConverterController">
+
+    <div class="container">
+        <header>
+            <h1>{{ texts.title }}</h1>
+        </header>
+
+        <section class="file-input">
+            <h2>{{ texts.uploadImage }}</h2>
+            <input type="file" id="imageInput" accept="image/*" ng-model="imageFile" ng-change="loadImage()" onchange="angular.element(this).scope().loadImage(this.files)">
+        </section>
+
+        <section class="format-selector" ng-if="imageLoaded">
+            <h2>{{ texts.selectFormat }}</h2>
+            <select ng-model="selectedFormat">
+                <option value="image/jpeg">JPEG</option>
+                <option value="image/png">PNG</option>
+            </select>
+            <button ng-click="convertImage()">{{ texts.convertButton }}</button>
+        </section>
+
+        <section class="image-preview" ng-if="convertedImage">
+            <h2>{{ texts.preview }}</h2>
+            <img ng-src="{{ convertedImage }}" alt="Converted Image" id="convertedImagePreview">
+            <a id="downloadLink" href="{{ convertedImage }}" download="converted_image.{{ selectedFormat == 'image/jpeg' ? 'jpg' : 'png' }}">
+                {{ texts.downloadButton }}
+            </a>
+        </section>
+    </div>
+
+</body>
+</html>
